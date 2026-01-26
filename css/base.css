@@ -1,0 +1,76 @@
+/* Website Style */
+
+header{
+    width: 100%;
+    float: left;
+    font-family: cursive;
+    text-align: center;
+    background-color: khaki;
+}
+
+nav{
+    width: 20%;
+    float: left;
+
+}
+
+main{
+    width: 60%;
+    float: left;
+    font-size: large;
+    background-color: moccasin;
+
+}
+main img{
+    width: 250px;
+    display: block;
+    margin: 0 auto;
+
+}
+main p{
+    margin-block: 30px;
+    text-indent: 25px;
+}
+
+footer{
+    width: 100%;
+    float: left;
+    font-size: small;
+    font-weight: bold;
+    text-align: center;
+    background-color: khaki;
+}
+
+/* Website Navigation Style */
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: lightgray;
+}
+
+ul a{
+    display: block;
+    color: black;
+    padding: 8px 0 8px 16px;
+    text-decoration: none;
+}
+
+/* Navigation Hover Style */
+li a:hover{
+    background-color: dimgray;
+    color: papayawhip;
+}
+ul{
+    border: 1px solid;
+}
+li{
+    text-align: center;
+    border-bottom: 1px solid;
+
+}
+li:last-child{
+    border-bottom: none;
+
+}
