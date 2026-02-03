@@ -5,7 +5,7 @@ header{
     float: left;
     font-family: cursive;
     text-align: center;
-    background-color: khaki;
+    background-color: wheat;
 }
 
 nav{
@@ -31,6 +31,9 @@ main p{
     margin-block: 30px;
     text-indent: 25px;
 }
+main h1{
+    color: coral;
+}
 
 footer{
     width: 100%;
@@ -38,7 +41,7 @@ footer{
     font-size: small;
     font-weight: bold;
     text-align: center;
-    background-color: khaki;
+    background-color:wheat;
 }
 
 /* Website Navigation Style */
