@@ -19,6 +19,9 @@ main{
     float: left;
     font-size: large;
     background-color: moccasin;
+    text-align: center;
+    align-items: center;
+    min-height: 500px;
 
 }
 main img{
