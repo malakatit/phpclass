@@ -8,6 +8,8 @@
         <li><a href="/Dice">Dice Game</a> </li>
         <li><a href="/movielist">Movie List</a> </li>
         <li><a href="/CustomerListing">Customer Listing</a> </li>
+        <li><a href="/login">Admin Login</a> </li>
+
 
     </ul>
 </nav>
