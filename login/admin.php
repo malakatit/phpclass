@@ -1,3 +1,67 @@
+<?php
+global $con;
+$err = "";
+$Username = "";
+$Password = "";
+$Password2 = "";
+$Email = "";
+session_start();
+include '../includes/db.php';
+
+
+if(!isset($_SESSION["UID"])){
+    header("Location: index.php");
+}
+if(isset($_POST["btnSubmit"])) {
+
+    $Username = isset($_POST["txtUsername"]) ? trim($_POST["txtUsername"]) : "";
+    $Password = isset($_POST["txtPassword"]) ? trim($_POST["txtPassword"]) : "";
+    $Password2 = isset($_POST["txtPassword2"]) ? trim($_POST["txtPassword2"]) : "";
+    $Role = isset($_POST["txtRole"]) ? $_POST["txtRole"] : "";
+    $Email = isset($_POST["txtEmail"]) ? trim($_POST["txtEmail"]) : "";
+
+
+    if(strlen($Username) < 4){
+        $err = "Username must be at least 4 characters long!";
+    }
+
+    elseif(strlen($Password) < 4){
+        $err = "Password must be at least 4 characters long!";
+    }
+
+    // Password match
+    elseif($Password !== $Password2){
+        $err = "Passwords do not match!";
+    }
+    elseif(empty($Role)){
+        $err = "Role is required!";
+    }
+
+    elseif(!filter_var($Email, FILTER_VALIDATE_EMAIL)){
+        $err = "Invalid email format!";
+    }
+
+    if($err == ""){
+        $memberKey = "xxxxxxxxx";
+
+        include '../includes/db.php';
+
+        $sql = mysqli_prepare($con,
+            "INSERT INTO memberLogin (memberName, memberEmail, memberPassword, roleID, memberKey) 
+             VALUES (?, ?, ?, ?, ?)"
+        );
+
+        mysqli_stmt_bind_param($sql, "sssis", $Username, $Email, $Password, $Role, $memberKey);
+        mysqli_stmt_execute($sql);
+
+        $err = "Member Added to Database";
+
+        // Clear fields
+        $Username = $Password = $Password2 = $Email = "";
+    }
+}
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -35,7 +99,7 @@
                 'footer footer'
         ;
             padding: 0px;
-            width: 60%;
+            width: 80%;
         }
 
         div{
@@ -54,33 +118,47 @@
 <main>
     <h3> Admin Page </h3>
 
-    <h3 id="err"><?=$msg?></h3>
+    <h3 id="err"><?=$err?></h3>
 
-    <form method="get">
+    <form method="post">
         <div class="gc">
             <div class="item1"><h3>Add New Member</h3></div>
             <div class="item2">Username</div>
-            <div class="item3"><input type="text" name="txtUsername" id="txtUsername" size="60"/></div>
+            <div class="item3"><input type="text" name="txtUsername" id="txtUsername" value="<?=$Username?>" size="60" /></div>
             <div class="item4">Password</div>
-            <div class="item5"><input type="password" name="txtPassword" id="txtPassword" size="60"/></div>
+            <div class="item5"><input type="password" name="txtPassword" id="txtPassword" value="<?=$Password?>" size="60" /></div>
             <div class="item6">Retype Password</div>
-            <div class="item7"><input type="password" name="txtPassword2" id="txtPassword2" size="60"/></div>
+            <div class="item7"><input type="password" name="txtPassword2" id="txtPassword2" value="<?=$Password2?>" size="60"/></div>
             <div class="item8">Role</div>
             <div class="item9">
                 <select name="txtRole" id="txtRole">
-                    <option value="1">Admin</option>
-                    <option value="2">Operator</option>
-                    <option value="3">Member</option>
-                </select>
+                    <?php
+                    $result = mysqli_query($con, "SELECT roleID, roleValue FROM role");
 
+                    if($result){
+                        while($row = mysqli_fetch_assoc($result)){
+                            echo "<option value='".$row['roleID']."'>".$row['roleValue']."</option>";
+                        }
+                    } else {
+                        echo "<option value=''>No roles found</option>";
+                    }
+                    ?>
+                </select>
             </div>
+
             <div class="item10"> Email</div>
-            <div class="item11"><input type="text" name="txtEmail" id="txtEmail" size="60"/></div>
-            <div class="item12"><input type="submit" value="Create new User" name="btnSubmit" /></div>
+            <div class="item11">
+                <input type="text" name="txtEmail" id="txtEmail" value="<?=$Email?>" size="60" />
+            </div>
+
+            <div class="item12">
+                <input type="submit" value="Create new User" name="btnSubmit" />
+            </div>
+
         </div>
     </form>
 
 </main>
-<?php include('../includes/footer.php') ?>
+<?php include '../includes/footer.php'; ?>
 </body>
 </html>

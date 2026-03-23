@@ -1,16 +1,22 @@
 <?php
+
+$msg = "";
+session_start();
+
+
 if(!empty($_POST["txtUsername"])){
     if(!empty($_POST["txtPassword"])){
 
         $username = $_POST["txtUsername"];
-        $password = $_POST["txtPassword"];
+        $passwd = $_POST["txtPassword"];
 
-       if($username=="admin" && $password=="p@ss"){
+       if($username=="admin" && $passwd=="p@ss"){
+           $_SESSION["UID"] = 1;
            header( "location: admin.php");
         }
        else{
-           if($username=="admin" && $password=="p@ss") {
-               header("location: admin.php");
+           if($username=="admin" && $passwd=="p@ss") {
+               header("location: member.php");
            }
            $msg = "Sorry Wrong Username or Password";
        }
@@ -47,7 +53,7 @@ if(!empty($_POST["txtUsername"])){
                 'footer footer'
         ;
             padding: 0;
-            width: 60%;
+            width: 80%;
         }
 
         div{
@@ -66,7 +72,6 @@ if(!empty($_POST["txtUsername"])){
     <?php include('../includes/nav.php') ?>
 </nav>
 <main>
-
     <h3 id="err"><?=$msg?></h3>
 
     <form method="post">
