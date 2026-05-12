@@ -9,6 +9,7 @@
         <li><a href="/movielist">Movie List</a> </li>
         <li><a href="/CustomerListing">Customer Listing</a> </li>
         <li><a href="/login">Admin Login</a> </li>
+        <li><a href="/marathon/public" target="_blank">Marathon Website</a> </li>
 
 
     </ul>

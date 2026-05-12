@@ -41,20 +41,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Include database connection
             include '../includes/db.php';
 
-            // Hash the password before storing
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            // Generate MemberKey
+            $MemberKey = sprintf('%04X%04X%04X%04X',
+                mt_rand(0, 65535),
+                mt_rand(0, 65535),
+                mt_rand(0, 65535),
+                mt_rand(0, 65535)
+            );
+
+            // Combine password + key
+            $combinedPassword = $password . $MemberKey;
+
+            // Hash password
+            $hashedPassword = password_hash($combinedPassword, PASSWORD_DEFAULT);
 
             // Prepare SQL statement
             $sql = mysqli_prepare($con,
-                "INSERT INTO CustomerListing 
-                (FirstName, LastName, Address, City, State, Zip, Phone, Email, Password)
-                VALUES (?,?,?,?,?,?,?,?,?)"
+                "INSERT INTO CustomerListing (FirstName, LastName, Address, City, State, Zip, Phone, Email, Password, MemberKey) VALUES (?,?,?,?,?,?,?,?,?,?)"
             );
 
+
             // Bind parameters
-            mysqli_stmt_bind_param($sql, "sssssssss",
+            mysqli_stmt_bind_param($sql, "ssssssssss",
                 $first, $last, $address, $city, $state,
-                $zip, $phone, $email, $hashedPassword
+                $zip, $phone, $email, $hashedPassword, $MemberKey
             );
 
             // Execute statement
